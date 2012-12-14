@@ -1,0 +1,8 @@
+{
+	"shell-version": ["3.6.0","3.6.1","3.6.2"],
+	"uuid": "OSS4-Mixer@so-dicas.info",
+	"name": "OSS4 Mixer",
+	"original-author": "Victor Aurélio Santos",
+	"url": "https://github.com/hotvic/OSS4-Mixer/",
+	"description": "Control OSS4 output(vmix0-outvol or other) volume."
+}
