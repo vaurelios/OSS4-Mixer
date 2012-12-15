@@ -59,18 +59,20 @@ const OSSMixer = new Lang.Class({
 	_getVolume: function(){
 		let cmd = GLib.spawn_command_line_sync('ossmix ' + MIXER_CONTROL);
 		let value = cmd[1].toString().split('set to ')[1].toString().split(' (')[0].toString();
-        
-        let in_percent = value * 4;
+
+		let in_percent = value * 4;
 
 		return in_percent;
 	},
 
 	_setVolume: function(value){
-        let in_db = value / 4;
-		let cmd = GLib.spawn_command_line_async('ossmix ' + MIXER_CONTROL + in_db);
-		
+		let in_db = value / 4;
+		let command = "ossmix " + MIXER_CONTROL + " " + in_db.toString();
+
+		let cmd = GLib.spawn_command_line_async(command);
+
 		this._cVolume = value;
-		
+
 		this._updateIcon(value);
 	},
 
@@ -142,7 +144,7 @@ function init(){
 
 }
 
-let AM;
+let OM;
 
 function enable(){
 	OM = new OSSMixer();
