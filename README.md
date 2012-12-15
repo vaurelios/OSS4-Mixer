@@ -1,4 +1,4 @@
-Alsa-Mixer
+OSS4-Mixer
 ==========
 OSS4-Mixer is a gnome-shell extension to control OSS4 output(vmix0-outvol or other) volume.
 
