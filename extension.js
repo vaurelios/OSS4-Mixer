@@ -59,12 +59,15 @@ const OSSMixer = new Lang.Class({
 	_getVolume: function(){
 		let cmd = GLib.spawn_command_line_sync('ossmix ' + MIXER_CONTROL);
 		let value = cmd[1].toString().split('set to ')[1].toString().split(' (')[0].toString();
+        
+        let in_percent = value * 4;
 
-		return value;
+		return in_percent;
 	},
 
 	_setVolume: function(value){
-		let cmd = GLib.spawn_command_line_async('amixer -q set Master ' + value + '%');
+        let in_db = value / 4;
+		let cmd = GLib.spawn_command_line_async('ossmix ' + MIXER_CONTROL + in_db);
 		
 		this._cVolume = value;
 		
@@ -127,28 +130,6 @@ const OSSMixer = new Lang.Class({
 		return true;
 	},
 
-	_AButtons: function(){
-		this.btns = [];
-		
-		this.btns[0] = {
-			title: "GNOME AlsaMixer",
-			name: "galsamixer",
-			command: "gnome-alsamixer",
-			visible: true
-		};
-		
-		for (i = 0; i <= this.btns.length; i++){
-			let ret = 0;
-			
-			if (GLib.spawn_command_line_sync(this.btns[i].command)[3] != 0)
-				btns[i].visible = false;
-			else
-				ret++;
-		}
-		
-		return ret;
-	},
-
 	destroy: function(){
 		this.parent();
 		Mainloop.remove_source(this._timeoutId);
@@ -164,11 +145,11 @@ function init(){
 let AM;
 
 function enable(){
-	AM = new AlsaMixer();
-	Main.panel.addToStatusArea('AlsaMixer', AM);
+	OM = new OSSMixer();
+	Main.panel.addToStatusArea('OSSMixer', OM);
 }
 
 function disable(){
-	AM.destroy();
-	AM = null;
+	OM.destroy();
+	OM = null;
 }
